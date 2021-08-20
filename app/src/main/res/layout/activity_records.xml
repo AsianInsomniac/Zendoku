@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Records">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llDiff"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="ZENDOKU"
+        android:textAllCaps="true"
+        android:textSize="60sp"
+        android:layout_marginTop="100dp"/>
+
+    <LinearLayout
+        android:id="@+id/llDiff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvSkipRec"
+        android:layout_marginBottom="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="15" >
+
+        <Button
+            android:id="@+id/btnDiffL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="diffDown"
+            app:layout_constraintLeft_toRightOf="@id/tvDiff"
+            app:layout_constraintRight_toLeftOf="@id/tvDiffCon" />
+
+        <TextView
+            android:id="@+id/tvDiff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/btnDiffL"
+            app:layout_constraintRight_toLeftOf="@id/btnDiffR"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="MED"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnDiffR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="diffUp"
+            app:layout_constraintLeft_toRightOf="@id/tvDiffCon"
+            app:layout_constraintRight_toRightOf="@id/parent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSkipRec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llDiff"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llDiff"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="Total skips used"
+        android:textAllCaps="true"
+        android:textSize="30sp"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/tvSkipRecVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvSkipRec"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvClearRec"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="0"
+        android:textAllCaps="true"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tvClearRec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvSkipRecVal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvClearRecVal"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="Total skips used"
+        android:textAllCaps="true"
+        android:textSize="30sp"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/tvClearRecVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvClearRec"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnBack"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="0"
+        android:textAllCaps="true"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="100dp"
+        android:onClick="toHome"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvClearRecVal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

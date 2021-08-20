@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings">
+
+    <TextView
+        android:id="@+id/tvSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llDiff"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="SETTINGS"
+        android:textAllCaps="true"
+        android:textSize="60sp"
+        android:layout_marginTop="50dp"/>
+
+    <LinearLayout
+        android:id="@+id/llDiff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvSettings"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llSkip"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/tvDiff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnDiffL"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="DIFFICULTY"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="5"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/btnDiffL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="diffDown"
+            app:layout_constraintLeft_toRightOf="@id/tvDiff"
+            app:layout_constraintRight_toLeftOf="@id/tvDiffCon" />
+
+        <TextView
+            android:id="@+id/tvDiffCon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/btnDiffL"
+            app:layout_constraintRight_toLeftOf="@id/btnDiffR"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="MED"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnDiffR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:onClick="diffUp"
+            app:layout_constraintLeft_toRightOf="@id/tvDiffCon"
+            app:layout_constraintRight_toRightOf="@id/parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSkip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llDiff"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llBGM"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/tvSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnSkipL"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="SKIPS"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="5"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/btnSkipL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="skipDown"
+            app:layout_constraintLeft_toRightOf="@id/tvSkip"
+            app:layout_constraintRight_toLeftOf="@id/tvSkipCon" />
+
+        <TextView
+            android:id="@+id/tvSkipCon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/btnSkipL"
+            app:layout_constraintRight_toLeftOf="@id/btnSkipR"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="3"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnSkipR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:onClick="skipUp"
+            app:layout_constraintLeft_toRightOf="@id/tvSkipCon"
+            app:layout_constraintRight_toRightOf="@id/parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llBGM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llSkip"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llSFX"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/tvBGM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnBGML"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="BGM"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="5"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/btnBGML"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="bgmDown"
+            app:layout_constraintLeft_toRightOf="@id/tvBGM"
+            app:layout_constraintRight_toLeftOf="@id/tvBGMCon" />
+
+        <TextView
+            android:id="@+id/tvBGMCon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/btnBGML"
+            app:layout_constraintRight_toLeftOf="@id/btnBGMR"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="10"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnBGMR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:onClick="bgmUp"
+            app:layout_constraintLeft_toRightOf="@id/tvBGMCon"
+            app:layout_constraintRight_toRightOf="@id/parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSFX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llBGM"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnBack"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/tvSFX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btnSFXL"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="SFX"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="5"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/btnSFXL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="sfxDown"
+            app:layout_constraintLeft_toRightOf="@id/tvSFX"
+            app:layout_constraintRight_toLeftOf="@id/tvSFXCon" />
+
+        <TextView
+            android:id="@+id/tvSFXCon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/btnSFXL"
+            app:layout_constraintRight_toLeftOf="@id/btnSFXR"
+            android:fontFamily="@font/advent_pro_semibold"
+            android:text="10"
+            android:textAllCaps="true"
+            android:textSize="25sp"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnSFXR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:onClick="sfxUp"
+            app:layout_constraintLeft_toRightOf="@id/tvSFXCon"
+            app:layout_constraintRight_toRightOf="@id/parent" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:onClick="toHome"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSFX" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
