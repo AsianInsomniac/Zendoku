@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Zendoku">
+        <activity android:name=".StartSudoku"
+            android:parentActivityName=".StartSudoku"/>
         <activity android:name=".Records"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".Settings"

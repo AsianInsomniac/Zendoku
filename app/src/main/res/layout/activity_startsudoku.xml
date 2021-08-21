@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
+        android:onClick="toHome"
+        />
+
+    <TextView
+        android:id="@+id/tvTitle_sudokuBoardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/advent_pro_semibold"
+        android:text="Zendoku"
+        android:textAllCaps="true"
+        android:textSize="60sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_back"
+        android:layout_marginTop="20dp"
+        />
+
+    <com.mobdeve.s17.group18.zendoku.SudokuBoardView
+        android:id="@+id/sudokuBoardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tvTitle_sudokuBoardView"
+        android:layout_above="@id/ll_indicator_and_buttons"
+        android:layout_marginTop="15dp"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_indicator_and_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        >
+
+        <TextView
+            android:id="@+id/tvSkips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:text="n SKIPS LEFT"
+            android:textSize="32sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:layout_below="@id/tvSkips"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvSkips"
+                android:layout_weight="2"
+                android:layout_margin="20dp"
+                android:text="SKIP"
+                />
+
+            <Button
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvSkips"
+                android:layout_weight="2"
+                android:layout_margin="20dp"
+                android:text="VERIFY"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

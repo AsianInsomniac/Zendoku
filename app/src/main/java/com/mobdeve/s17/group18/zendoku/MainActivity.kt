@@ -14,6 +14,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding!!.root)
     }
 
+    fun toStart(view: View) {
+        val intent = Intent(this, StartSudoku::class.java)
+        startActivity(intent)
+    }
+
     fun toSettings(view: View) {
         val intent = Intent(this, Settings::class.java)
         startActivity(intent)
