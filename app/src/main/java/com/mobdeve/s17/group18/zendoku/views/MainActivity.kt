@@ -1,4 +1,4 @@
-package com.mobdeve.s17.group18.zendoku
+package com.mobdeve.s17.group18.zendoku.views
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toStart(view: View) {
-        val intent = Intent(this, StartSudoku::class.java)
+        val intent = Intent(this, StartSudokuActivity::class.java)
         startActivity(intent)
     }
 

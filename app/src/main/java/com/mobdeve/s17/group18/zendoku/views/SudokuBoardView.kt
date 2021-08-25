@@ -1,4 +1,4 @@
-package com.mobdeve.s17.group18.zendoku
+package com.mobdeve.s17.group18.zendoku.views
 
 import android.content.Context
 import android.graphics.Canvas
@@ -15,19 +15,21 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
 
     private var cellSizePixels = 0F
 
-    private var selectedRow = 5
-    private var selectedCol = 5
+    private var selectedRow = 0
+    private var selectedCol = 0
+
+    private var listener: SudokuBoardView.OnTouchListener? = null
 
     private val thickLinePaint = Paint().apply {       // board perimeter lines and grid separator lines
         style= Paint.Style.STROKE
         color = Color.BLACK          // adjust these to change grid line characteristics
-        strokeWidth = 4F
+        strokeWidth = 6F
     }
 
     private val thinLinePaint = Paint().apply {       // board cell group divider
         style= Paint.Style.STROKE
         color = Color.BLACK          // adjust these to change grid line characteristics
-        strokeWidth = 2F
+        strokeWidth = 1F
     }
 
     private val selectedCellPaint = Paint().apply {  //sets the color and style of a selected cell
@@ -52,7 +54,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         drawLines(canvas) //draws board lines
     }
 
-    private fun fillCells(canvas: Canvas) { //responsible for locating the cell selected in the board
+    private fun fillCells(canvas: Canvas) { //responsible for locating and highlighting the cell selected in the board
         if(selectedRow == -1 || selectedRow == -1) return //checks if the cell selected is valid
 
         for(row in 0..size){
@@ -68,9 +70,10 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         }
     }
 
-    private fun fillCell(canvas: Canvas, row: Int, col: Int, paint: Paint) { //function for filling a cell with a specific color given coordinates and paint
+    private fun fillCell(canvas: Canvas, row: Int, col: Int, paint: Paint) { //function for filling a cell with a specific color, given the coordinates, cell size and paint
         canvas.drawRect(col * cellSizePixels, row * cellSizePixels, (col + 1) * cellSizePixels, (row + 1) *cellSizePixels, paint)
     }
+
     private fun drawLines(canvas: Canvas){
         canvas.drawRect(0F, 0F, width.toFloat(),height.toFloat(), thickLinePaint) //draws the outside border of the board
 
@@ -80,7 +83,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
                 else -> thinLinePaint //makes up the grid and each cell of the board
             }
 
-            canvas.drawLine( //draws the horizontal lines of the sudoku board
+            canvas.drawLine( //draws the vertical lines of the sudoku board
                 i * cellSizePixels,
                 0F,
                 i * cellSizePixels,
@@ -88,7 +91,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
                 paintToUse
             )
 
-            canvas.drawLine( //draws the vertical lines of the sudoku board
+            canvas.drawLine( //draws the horizontal lines of the sudoku board
                 0F,
                 i * cellSizePixels,
                 width.toFloat(),
@@ -98,19 +101,33 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean { // detects when board is touched
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                handleTouchEvent(event.x, event.y)
+                handleTouchEvent(event.x, event.y) //passes the touched coordinates to be able to change the board's selected cell coordinates
                 true
             }
             else -> false
         }
     }
 
-    private fun handleTouchEvent(x: Float, y: Float){
-        selectedRow = (y / cellSizePixels).toInt()
-        selectedCol = (x / cellSizePixels).toInt()
+    private fun handleTouchEvent(x: Float, y: Float){ // sets the selected coordinates to the detected touch event
+        val possibleSelectedRow = (y / cellSizePixels).toInt()
+        val possibleselectedCol = (x / cellSizePixels).toInt()
+        listener?.onCellTouched(possibleSelectedRow, possibleselectedCol) //updates the board's view
+    }
+
+    fun updateSelectedCellUI(row: Int, col: Int) { //
+        selectedRow = row
+        selectedCol = col
         invalidate()
+    }
+
+    fun registerListener(listener: OnTouchListener) {
+        this.listener = listener
+    }
+
+    interface OnTouchListener {
+        fun onCellTouched(row: Int, col: Int)
     }
 }

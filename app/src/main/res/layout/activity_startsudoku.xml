@@ -25,14 +25,14 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/btn_back"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="35dp"
         />
 
-    <com.mobdeve.s17.group18.zendoku.SudokuBoardView
+    <com.mobdeve.s17.group18.zendoku.views.SudokuBoardView
         android:id="@+id/sudokuBoardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tvTitle_sudokuBoardView"
-        android:layout_above="@id/ll_indicator_and_buttons"
         />
 
     <LinearLayout
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="15dp"
         >
 
         <TextView

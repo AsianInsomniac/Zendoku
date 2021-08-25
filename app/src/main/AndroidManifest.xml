@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Zendoku">
-        <activity android:name=".StartSudoku"
-            android:parentActivityName=".StartSudoku"/>
-        <activity android:name=".Records"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Settings"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".views.StartSudokuActivity"
+            android:parentActivityName=".views.StartSudokuActivity"/>
+        <activity android:name=".views.Records"
+            android:parentActivityName=".views.MainActivity"/>
+        <activity android:name=".views.Settings"
+            android:parentActivityName=".views.MainActivity"/>
+        <activity android:name=".views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

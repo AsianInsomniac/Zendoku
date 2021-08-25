@@ -1,9 +1,10 @@
-package com.mobdeve.s17.group18.zendoku
+package com.mobdeve.s17.group18.zendoku.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 
 class Records : AppCompatActivity() {

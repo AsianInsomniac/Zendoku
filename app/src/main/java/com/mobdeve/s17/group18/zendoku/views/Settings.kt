@@ -1,10 +1,10 @@
-package com.mobdeve.s17.group18.zendoku
+package com.mobdeve.s17.group18.zendoku.views
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 
 class Settings : AppCompatActivity() {
