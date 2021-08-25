@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.mobdeve.s17.group18.zendoku.game.Cell
 
 class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -19,6 +21,8 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
     private var selectedCol = 0
 
     private var listener: SudokuBoardView.OnTouchListener? = null
+
+    private var cells: List<Cell>? = null
 
     private val thickLinePaint = Paint().apply {       // board perimeter lines and grid separator lines
         style= Paint.Style.STROKE
@@ -42,6 +46,12 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         color = Color.parseColor("#b4b8b5")
     }
 
+    private val textPaint = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.BLACK
+        textSize = 48F
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) { //determines the view's size
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val sizePixels = Math.min(widthMeasureSpec, heightMeasureSpec) //gets the minimum width and height of the board
@@ -52,20 +62,20 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         cellSizePixels = (width / size).toFloat() //takes the size of the board and divides it by the number of cells indicated, determines the size of the cells
         fillCells(canvas) //highlights the cell selected
         drawLines(canvas) //draws board lines
+        drawText(canvas) //draws user input text onto a cell
     }
 
     private fun fillCells(canvas: Canvas) { //responsible for locating and highlighting the cell selected in the board
-        if(selectedRow == -1 || selectedRow == -1) return //checks if the cell selected is valid
+        cells?.forEach {
+            val row = it.row
+            val col = it.col
 
-        for(row in 0..size){
-            for(col in 0..size){
-                if(row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
-                    fillCell(canvas, row, col, selectedCellPaint)
-                } else if (row == selectedRow || col == selectedCol) { //fills the whole row and column the selected cell is in with conflictingCellPaint
-                    fillCell(canvas, row, col, conflictingCellPaint)
-                } else if ( row / sqrtSize == selectedRow / sqrtSize && col / sqrtSize == selectedCol / sqrtSize) { //fills the grid the selected cell is in with conflictingCellPaint
-                    fillCell(canvas, row, col, conflictingCellPaint)
-                }
+            if(row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
+                fillCell(canvas, row, col, selectedCellPaint)
+            } else if (row == selectedRow || col == selectedCol) { //fills the whole row and column the selected cell is in with conflictingCellPaint
+                fillCell(canvas, row, col, conflictingCellPaint)
+            } else if ( row / sqrtSize == selectedRow / sqrtSize && col / sqrtSize == selectedCol / sqrtSize) { //fills the grid the selected cell is in with conflictingCellPaint
+                fillCell(canvas, row, col, conflictingCellPaint)
             }
         }
     }
@@ -101,6 +111,22 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         }
     }
 
+    private fun drawText(canvas: Canvas){
+        cells?.forEach {
+            val row = it.row
+            val col = it.col
+            val valueString = it.value.toString()
+
+            val textBounds = Rect()
+            textPaint.getTextBounds(valueString, 0, valueString.length, textBounds)
+            val textWidth = textPaint.measureText(valueString)
+            val textHeight = textBounds.height()
+
+            canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
+                (row * cellSizePixels) + cellSizePixels / 2 - textHeight / 2, textPaint)
+        }
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean { // detects when board is touched
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -120,6 +146,11 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
     fun updateSelectedCellUI(row: Int, col: Int) { //
         selectedRow = row
         selectedCol = col
+        invalidate()
+    }
+
+    fun updateCells(cells: List<Cell>){
+        this.cells = cells
         invalidate()
     }
 
