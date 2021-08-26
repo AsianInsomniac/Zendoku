@@ -14,6 +14,8 @@ class SudokuGame { //acts as the backend of the sudoku board view
 
     init{ //called whenever a sudoku game is created
         val cells = List(9*9) {i -> Cell(i / 9, i % 9, i %9  )} //initializes a list of of Cell class
+        cells[15].isStartingCell = true
+        cells[17].isStartingCell = true
         board = Board(9, cells) //board class is instantiated with a cell size of 9
 
         selectedCellLiveData.postValue(Pair(selectedRow,selectedCol)) //detects what the current coordinates are and sends it to the view for display
@@ -22,15 +24,18 @@ class SudokuGame { //acts as the backend of the sudoku board view
 
     fun handleInput(number: Int) { //accepts user input value and displays it to the respective cell
         if(selectedRow == -1 || selectedCol == -1) return
+        if(board.getCell(selectedRow, selectedCol).isStartingCell) return
 
         board.getCell(selectedRow, selectedCol).value = number
         cellsLiveData.postValue(board.cells)
     }
 
     fun updateSelectedCell(row: Int, col:Int) { //updates the row and column values
-        selectedRow = row
-        selectedCol = col
-        selectedCellLiveData.postValue(Pair(row,col))
+        if (!board.getCell(row, col).isStartingCell) {
+            selectedRow = row
+            selectedCol = col
+            selectedCellLiveData.postValue(Pair(row,col))
+        }
     }
 
 }

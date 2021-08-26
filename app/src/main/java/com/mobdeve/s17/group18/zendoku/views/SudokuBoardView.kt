@@ -1,10 +1,7 @@
 package com.mobdeve.s17.group18.zendoku.views
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -52,6 +49,19 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         textSize = 48F
     }
 
+    private val startingCellTextPaint = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.BLACK
+        textSize = 48F
+        typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private val startingCellPaint = Paint().apply {  //sets the color and style of a starting cell
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.parseColor("#acacac")
+    }
+
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) { //determines the view's size
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val sizePixels = Math.min(widthMeasureSpec, heightMeasureSpec) //gets the minimum width and height of the board
@@ -70,7 +80,9 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
             val row = it.row
             val col = it.col
 
-            if(row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
+            if(it.isStartingCell) {
+                fillCell(canvas, row, col, startingCellPaint)
+            } else if(row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
                 fillCell(canvas, row, col, selectedCellPaint)
             } else if (row == selectedRow || col == selectedCol) { //fills the whole row and column the selected cell is in with conflictingCellPaint
                 fillCell(canvas, row, col, conflictingCellPaint)
@@ -117,9 +129,10 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
             val col = it.col
             val valueString = it.value.toString()
 
+            val paintToUse = if(it.isStartingCell) startingCellTextPaint else textPaint
             val textBounds = Rect()
-            textPaint.getTextBounds(valueString, 0, valueString.length, textBounds)
-            val textWidth = textPaint.measureText(valueString)
+            paintToUse.getTextBounds(valueString, 0, valueString.length, textBounds)
+            val textWidth = paintToUse.measureText(valueString)
             val textHeight = textBounds.height()
 
             canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
