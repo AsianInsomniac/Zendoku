@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_startsudoku.*
 class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener{
 
     private lateinit var viewModel:StartSudokuViewModel
+    private lateinit var sudokuBoardView:SudokuBoardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
