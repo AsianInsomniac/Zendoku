@@ -1,10 +1,12 @@
 package com.mobdeve.s17.group18.zendoku.views
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.game.Cell
 import com.mobdeve.s17.group18.zendoku.viewmodel.StartSudokuViewModel
@@ -13,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_startsudoku.*
 class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener{
 
     private lateinit var viewModel:StartSudokuViewModel
-    private lateinit var sudokuBoardView:SudokuBoardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +22,10 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
 
         sudokuBoardView.registerListener(this)
 
-        viewModel = ViewModelProviders.of(this).get(StartSudokuViewModel::class.java) //sets the StartSudoku activity with the StartSudokuViewModel
-        viewModel.sudokuGame.selectedCellLiveData.observe(this, Observer{updateSelectedCellUI(it) })
-        viewModel.sudokuGame.cellsLiveData.observe(this, Observer{updateCells(it) })
+        val viewModelFactory = SudokuViewModelFactory(applicationContext)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(StartSudokuViewModel::class.java) //sets the StartSudoku activity with the StartSudokuViewModel
+        viewModel.sudokuGame.selectedCellLiveData.observe(this, {updateSelectedCellUI(it) })
+        viewModel.sudokuGame.cellsLiveData.observe(this, {updateCells(it) })
 
         val buttons = listOf(oneBtn, twoBtn, threeBtn, fourBtn, fiveBtn, sixBtn, sevenBtn, eightBtn, nineBtn)
 
@@ -44,5 +46,11 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
 
     fun toHome(view: View) {
         finish()
+    }
+}
+
+class SudokuViewModelFactory(val context: Context): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return modelClass.getConstructor(Context::class.java).newInstance(context)
     }
 }

@@ -8,7 +8,6 @@ import android.view.View
 import com.mobdeve.s17.group18.zendoku.game.Cell
 
 class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
-
     private var sqrtSize = 3
     private var size = 9
 
@@ -22,13 +21,13 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
     private var cells: List<Cell>? = null
 
     private val thickLinePaint = Paint().apply {       // board perimeter lines and grid separator lines
-        style= Paint.Style.STROKE
+        style = Paint.Style.STROKE
         color = Color.BLACK          // adjust these to change grid line characteristics
         strokeWidth = 6F
     }
 
     private val thinLinePaint = Paint().apply {       // board cell group divider
-        style= Paint.Style.STROKE
+        style = Paint.Style.STROKE
         color = Color.BLACK          // adjust these to change grid line characteristics
         strokeWidth = 1F
     }
@@ -82,7 +81,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
 
             if(it.isStartingCell) {
                 fillCell(canvas, row, col, startingCellPaint)
-            } else if(row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
+            } else if (row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
                 fillCell(canvas, row, col, selectedCellPaint)
             } else if (row == selectedRow || col == selectedCol) { //fills the whole row and column the selected cell is in with conflictingCellPaint
                 fillCell(canvas, row, col, conflictingCellPaint)
@@ -93,7 +92,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
     }
 
     private fun fillCell(canvas: Canvas, row: Int, col: Int, paint: Paint) { //function for filling a cell with a specific color, given the coordinates, cell size and paint
-        canvas.drawRect(col * cellSizePixels, row * cellSizePixels, (col + 1) * cellSizePixels, (row + 1) *cellSizePixels, paint)
+        canvas.drawRect(col * cellSizePixels, row * cellSizePixels, (col + 1) * cellSizePixels, (row + 1) * cellSizePixels, paint)
     }
 
     private fun drawLines(canvas: Canvas){
@@ -123,20 +122,24 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         }
     }
 
-    private fun drawText(canvas: Canvas){
+    private fun drawText(canvas: Canvas, ){
         cells?.forEach {
-            val row = it.row
-            val col = it.col
-            val valueString = it.value.toString()
+            if(it.value != 0) {
+                val row = it.row
+                val col = it.col
+                val valueString = it.value.toString()
 
-            val paintToUse = if(it.isStartingCell) startingCellTextPaint else textPaint
-            val textBounds = Rect()
-            paintToUse.getTextBounds(valueString, 0, valueString.length, textBounds)
-            val textWidth = paintToUse.measureText(valueString)
-            val textHeight = textBounds.height()
+                val paintToUse = if (it.isStartingCell) startingCellTextPaint else textPaint
+                val textBounds = Rect()
+                paintToUse.getTextBounds(valueString, 0, valueString.length, textBounds)
+                val textWidth = paintToUse.measureText(valueString)
+                val textHeight = textBounds.height()
 
-            canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
-                (row * cellSizePixels) + cellSizePixels / 2 - textHeight / 2, textPaint)
+                canvas.drawText(
+                    valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
+                    (row * cellSizePixels) + cellSizePixels - textHeight / 2, textPaint
+                )
+            }
         }
     }
 
