@@ -5,9 +5,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mobdeve.s17.group18.zendoku.R
+import com.mobdeve.s17.group18.zendoku.databinding.ActivitySettingsBinding
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 
 class Settings : AppCompatActivity() {
+    private lateinit var binding: ActivitySettingsBinding
     private var strDiff: String ?= null
     private var nSkip: Int ?= null
     private var nBGMVol: Int ?= null
@@ -20,7 +22,9 @@ class Settings : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         sPref = StoragePreferences(applicationContext)
         tvDiffCon = findViewById<TextView>(R.id.tvDiffCon)
