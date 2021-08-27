@@ -50,16 +50,9 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
 
     private val startingCellTextPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.BLACK
+        color = Color.BLUE
         textSize = 48F
-        typeface = Typeface.DEFAULT_BOLD
     }
-
-    private val startingCellPaint = Paint().apply {  //sets the color and style of a starting cell
-        style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#acacac")
-    }
-
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) { //determines the view's size
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -79,9 +72,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
             val row = it.row
             val col = it.col
 
-            if(it.isStartingCell) {
-                fillCell(canvas, row, col, startingCellPaint)
-            } else if (row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
+            if (row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
                 fillCell(canvas, row, col, selectedCellPaint)
             } else if (row == selectedRow || col == selectedCol) { //fills the whole row and column the selected cell is in with conflictingCellPaint
                 fillCell(canvas, row, col, conflictingCellPaint)
@@ -122,7 +113,7 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         }
     }
 
-    private fun drawText(canvas: Canvas, ){
+    private fun drawText(canvas: Canvas){
         cells?.forEach {
             if(it.value != 0) {
                 val row = it.row

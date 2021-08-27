@@ -17,12 +17,24 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
     private var strDiff: String ?= null
     private var sPref: StoragePreferences?= null
     private var nSkip: Int ?= null
+    private var nClear: Int ?= null
+    private var strOrig: String ?= null
+    private var nOrig: Array<Int> = Array(81) {0}
     private lateinit var sudokuArray: Array<Int>
 
     private var selectedRow = -1
     private var selectedCol = -1
 
     private val board: Board
+
+    companion object {
+        const val EASY_MOD: Int = 10
+        const val MED_MOD: Int = 5
+        const val HARD_MOD: Int = 3
+        const val EVIL_MOD: Int = 1
+        const val MAX_SKIP: Int = 5
+        const val CLEAR_MSG: String = "Result is valid."
+    }
 
     init { // Called whenever a sudoku game is created
         val cells = List(9*9) {i -> Cell(i / 9, i % 9, 0  )} //initializes a list of of Cell class
@@ -44,6 +56,10 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
 
     private fun updateBoard() {
         board.setCellVals(sudokuArray)
+
+        board.cells.forEachIndexed { index, cell ->
+            cell.isStartingCell = nOrig[index] == sudokuArray[index] && cell.value != 0
+        }
 
         selectedCellLiveData.postValue(Pair(selectedRow,selectedCol)) //detects what the current coordinates are and sends it to the view for display
         cellsLiveData.postValue(board.cells) //posts the current board data
@@ -86,19 +102,24 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
             override fun onResponse(call: Call, response: Response) {
                 val responseBody = response.body()?.string()
                 val gson = GsonBuilder().create()
-                val responseResult = gson.fromJson(responseBody, ResponseResult::class.java)
-                val responseRaw = responseResult.output.raw_data
-                val rawArray = Array(81) {0}
+                val createResponseResult = gson.fromJson(responseBody, CreateResponseResult::class.java)
+                val responseRaw = createResponseResult.output.raw_data
+                strOrig = responseRaw
+                var rawArray = Array(81) {0}
 
                 responseRaw.forEachIndexed { index, c ->
                     rawArray[index] = c.code - 48 // 48 is 0 in ASCII; Char.code gets ASCII value of Char
                 }
 
+                strOrig!!.forEachIndexed { index, c ->
+                    nOrig[index] = c.code - 48
+                }
+
                 sudokuArray = rawArray
+                sPref?.saveStringPreferences("ZENDOKU_ORIGINAL_GRID", responseRaw)
                 countDownLatch.countDown() // Starts countdown
             }
         })
-
         countDownLatch.await() // Waits until countdown is finished before proceeding
     }
 
@@ -108,6 +129,10 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         // Initialize number of skips
         nSkip = sPref!!.getIntPreferences("ZENDOKU_SKIP")
 
+        // Initialize number of board clears
+        nClear = 0
+
+        // Generate new board and update view
         genNewBoard()
         updateBoard()
     }
@@ -118,12 +143,96 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         nSkip = nSkip?.minus(1)
     }
 
+    fun verifyBoard(): String {
+        val client = OkHttpClient()
+        val arrVal = getSudokuVals()
+
+        val request = Request.Builder()
+            .url("https://sudoku-all-purpose-pro.p.rapidapi.com/sudoku?verify=$arrVal")
+            .get()
+            .addHeader("x-rapidapi-host", "sudoku-all-purpose-pro.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", "7f61c6b2ccmsh269974c4aca773bp1e8bd0jsnb2adfc80f46e")
+            .build()
+
+        val countDownLatch = CountDownLatch(1) // Initialize countdown that waits for enqueue to finish before proceeding
+
+        var strResult = ""
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                strResult = "API was not responsive."
+                Log.i("verifyBoard", strResult)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val responseBody = response.body()?.string()
+                val gson = GsonBuilder().create()
+                val verifyResponseResult = gson.fromJson(responseBody, VerifyResponseResult::class.java)
+
+                when(verifyResponseResult.status.notice != ""){
+                    true -> {
+                        strResult = verifyResponseResult.status.notice
+                        clearBoard()
+                    }
+                    false -> strResult = verifyResponseResult.status.error
+                }
+
+                countDownLatch.countDown()
+            }
+        })
+
+        countDownLatch.await()
+        Log.i ("verifyBoard", strResult)
+        return strResult
+    }
+
+    private fun clearBoard() {
+        nClear = nClear?.inc()
+
+        if(nSkip!! < MAX_SKIP) {
+            when(strDiff){
+                "easy" -> {
+                    if(nClear!!.mod(EASY_MOD) == 0) {
+                        nSkip = nSkip!!.inc()
+                    }
+                }
+                "medium" -> {
+                    if(nClear!!.mod(MED_MOD) == 0) {
+                        nSkip = nSkip!!.inc()
+                    }
+                }
+                "hard" -> {
+                    if(nClear!!.mod(HARD_MOD) == 0) {
+                        nSkip = nSkip!!.inc()
+                    }
+                }
+                "evil" -> {
+                    if(nClear!!.mod(EVIL_MOD) == 0) {
+                        nSkip = nSkip!!.inc()
+                    }
+                }
+            }
+        }
+
+        genNewBoard()
+        updateBoard()
+    }
+
     private fun setPrevBoard(prevBoard: String) {
         setDiff(sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF").toString())
+
         nSkip = sPref!!.getIntPreferences("ZENDOKU_GRID_SKIP")
+        nClear = sPref!!.getIntPreferences("ZENDOKU_GRID_CLEAR")
+        strOrig = sPref!!.getStringPreferences("ZENDOKU_ORIGINAL_GRID")!!
+
+        nOrig = Array(81) {0}
+        strOrig!!.forEachIndexed { index, c ->
+            nOrig[index] = c.code - 48
+        }
+
         sudokuArray = Array(81) {0}
         prevBoard.forEachIndexed { index, c ->
-            sudokuArray[index] = c.code - 48 // 48 is 0 in ASCII; Char.code gets ASCII value of Char
+            sudokuArray[index] = c.code - 48
         }
     }
 
@@ -148,8 +257,16 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
     fun getSkip(): Int {
         return nSkip!!.toInt()
     }
+
+    fun getClear(): Int {
+        return nClear!!.toInt()
+    }
 }
 
-class ResponseResult(val output: Output)
+class CreateResponseResult(val output: Output)
+
+class VerifyResponseResult(val status: Status)
 
 class Output(val raw_data: String)
+
+class Status(val notice: String, val error: String)

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Zendoku</string>
+    <string name="app_start">START</string>
+    <string name="app_back">BACK</string>
+    <string name="app_settings">SETTINGS</string>
+    <string name="app_records">RECORDS</string>
+    <string name="board_skip">SKIP</string>
+    <string name="board_verify">VERIFY</string>
 </resources>
