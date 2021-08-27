@@ -2,15 +2,19 @@ package com.mobdeve.s17.group18.zendoku.views
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityStartsudokuBinding
 import com.mobdeve.s17.group18.zendoku.game.Cell
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 import com.mobdeve.s17.group18.zendoku.viewmodel.StartSudokuViewModel
 import kotlinx.android.synthetic.main.activity_startsudoku.*
+
 
 class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener{
     private lateinit var binding: ActivityStartsudokuBinding
@@ -31,11 +35,8 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         viewModel = ViewModelProvider(this, viewModelFactory).get(StartSudokuViewModel::class.java) //sets the StartSudoku activity with the StartSudokuViewModel
         viewModel.sudokuGame.selectedCellLiveData.observe(this, {updateSelectedCellUI(it) })
         viewModel.sudokuGame.cellsLiveData.observe(this, {updateCells(it) })
-        var strSkip = viewModel.sudokuGame.getSkip().toString() + " SKIP"
-        if (viewModel.sudokuGame.getSkip() > 1 || viewModel.sudokuGame.getSkip() == 0)
-            strSkip += "S"
-        strSkip += " LEFT"
-        tvSkips.text = strSkip
+
+        updateSkipText()
 
         val buttons = listOf(oneBtn, twoBtn, threeBtn, fourBtn, fiveBtn, sixBtn, sevenBtn, eightBtn, nineBtn)
 
@@ -51,6 +52,14 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         sudokuBoardView.updateSelectedCellUI(cell.first, cell.second)
     }
 
+    private fun updateSkipText() {
+        var strSkip = viewModel.sudokuGame.getSkip().toString() + " SKIP"
+        if (viewModel.sudokuGame.getSkip() > 1 || viewModel.sudokuGame.getSkip() == 0)
+            strSkip += "S"
+        strSkip += " LEFT"
+        tvSkips.text = strSkip
+    }
+
    override fun onCellTouched(row: Int, col: Int) { //accesses the sudoku cell update method to update a highlighted cell
         viewModel.sudokuGame.updateSelectedCell(row, col)
     }
@@ -61,7 +70,12 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
 
     fun skipGrid(view: View) {
         if(viewModel.sudokuGame.getSkip() > 0) {
-            genBoard
+            viewModel.sudokuGame.skipBoard()
+            updateSkipText()
+        }
+        else {
+
+            Snackbar.make(findViewById(android.R.id.content),"No skips available.",Snackbar.LENGTH_SHORT).show()
         }
     }
 

@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         val prevDiff = sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF") // Gets previously-saved difficulty setting from sharedPreferences
         val currDiff = sPref!!.getStringPreferences("ZENDOKU_DIFF") // Gets current difficulty setting from sharedPreferences
 
+        Log.i("init", sPref!!.getStringPreferences("ZENDOKU_GRID").toString())
         val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
@@ -44,10 +45,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Overwrite Current Grid?")
+        builder.setTitle("Overwrite Current Board?")
 
         if(prevDiff != currDiff) {
-            builder.setMessage("Previous Grid Difficulty: $prevDiff\nCurrent Grid Difficulty: $currDiff\n\nStarting a new grid with the current difficulty setting.\nAre you sure you want to proceed?")
+            builder.setMessage("Previous Board Difficulty: $prevDiff\nCurrent Board Difficulty: $currDiff\n\nStarting a new board with the current difficulty setting.\nAre you sure you want to proceed?")
                 .setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show()
         }
 

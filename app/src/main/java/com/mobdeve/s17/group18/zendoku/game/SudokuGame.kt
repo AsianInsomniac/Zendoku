@@ -30,20 +30,20 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
 
         this.context = context
         sPref = StoragePreferences(context)
-        val prevGrid = sPref!!.getStringPreferences("ZENDOKU_GRID") // Gets previously-saved grid from sharedPreferences
+        val prevBoard = sPref!!.getStringPreferences("ZENDOKU_GRID") // Gets previously-saved grid from sharedPreferences
         val prevDiff = sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF")
         val currDiff = sPref!!.getStringPreferences("ZENDOKU_DIFF")
 
-        if(prevGrid != null && prevDiff == currDiff)
-            setPrevGrid(prevGrid)
+        if(prevBoard != null && prevDiff == currDiff)
+            setPrevBoard(prevBoard)
         else
             genBoard(sPref!!.getStringPreferences("ZENDOKU_DIFF").toString())
 
-        cells.forEachIndexed { index, cell ->
-            cell.value = sudokuArray!![index]
-            if(cell.value != 0)
-                cell.isStartingCell = true
-        }
+        updateBoard()
+    }
+
+    private fun updateBoard() {
+        board.setCellVals(sudokuArray)
 
         selectedCellLiveData.postValue(Pair(selectedRow,selectedCol)) //detects what the current coordinates are and sends it to the view for display
         cellsLiveData.postValue(board.cells) //posts the current board data
@@ -65,13 +65,7 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         }
     }
 
-    private fun genBoard(currDiff: String) {
-        // Get difficulty setting from sharedPreferences
-        setDiff(currDiff)
-
-        // Initialize number of skips
-        nSkip = sPref!!.getIntPreferences("ZENDOKU_SKIP")
-
+    private fun genNewBoard() {
         // Creates and runs a query to generate a grid of the specified difficulty to the Sudoku API
         val client = OkHttpClient()
 
@@ -108,11 +102,27 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         countDownLatch.await() // Waits until countdown is finished before proceeding
     }
 
-    private fun setPrevGrid(prevGrid: String) {
+    private fun genBoard(currDiff: String) {
+        setDiff(currDiff)
+
+        // Initialize number of skips
+        nSkip = sPref!!.getIntPreferences("ZENDOKU_SKIP")
+
+        genNewBoard()
+        updateBoard()
+    }
+
+    fun skipBoard() {
+        genNewBoard()
+        updateBoard()
+        nSkip = nSkip?.minus(1)
+    }
+
+    private fun setPrevBoard(prevBoard: String) {
         setDiff(sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF").toString())
         nSkip = sPref!!.getIntPreferences("ZENDOKU_GRID_SKIP")
-        sudokuArray = Array<Int>(81) {0}
-        prevGrid.forEachIndexed { index, c ->
+        sudokuArray = Array(81) {0}
+        prevBoard.forEachIndexed { index, c ->
             sudokuArray[index] = c.code - 48 // 48 is 0 in ASCII; Char.code gets ASCII value of Char
         }
     }
@@ -126,13 +136,9 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         }
     }
 
-    fun setSkip(nSkip: Int) {
-        this.nSkip = nSkip
-    }
-
     fun getSudokuVals(): String {
         val strRemove = "[], "
-        return sudokuArray.contentToString().filterNot { strRemove.indexOf(it) > -1 }
+        return board.getCellVals().filterNot { strRemove.indexOf(it) > -1 }
     }
 
     fun getDiff(): String {
