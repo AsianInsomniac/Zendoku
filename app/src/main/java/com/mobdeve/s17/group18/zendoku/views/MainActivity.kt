@@ -1,24 +1,15 @@
 package com.mobdeve.s17.group18.zendoku.views
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
 import android.media.MediaPlayer
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
-import android.view.WindowManager
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityMainBinding
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
-import java.lang.IllegalStateException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

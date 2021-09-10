@@ -73,7 +73,7 @@ class Settings : AppCompatActivity() {
     fun bgmUp(view: View) {
         if(nBGMVol!! < 10) {
             nBGMVol = nBGMVol!! + 1
-            
+
         }
         tvBGMCon!!.setText(nBGMVol.toString())
     }
