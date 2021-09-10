@@ -4,14 +4,18 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityMainBinding
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 import java.lang.IllegalStateException
@@ -19,12 +23,21 @@ import java.lang.IllegalStateException
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var sPref: StoragePreferences ?= null
+    var mediaPlayer: MediaPlayer ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        mediaPlayer = MediaPlayer.create(this, R.raw.gametheory)
+        mediaPlayer?.isLooping = true
+        mediaPlayer?.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
     }
 
     fun toStart(view: View) {
@@ -32,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         val prevDiff = sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF") // Gets previously-saved difficulty setting from sharedPreferences
         val currDiff = sPref!!.getStringPreferences("ZENDOKU_DIFF") // Gets current difficulty setting from sharedPreferences
 
-        Log.i("init", sPref!!.getStringPreferences("ZENDOKU_GRID").toString())
         val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
@@ -47,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Overwrite Current Board?")
 
-        if(prevDiff != currDiff) {
+        if(prevDiff != currDiff && prevDiff != "") {
             builder.setMessage("Previous Board Difficulty: $prevDiff\nCurrent Board Difficulty: $currDiff\n\nStarting a new board with the current difficulty setting.\nAre you sure you want to proceed?")
                 .setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show()
         }
@@ -66,5 +78,17 @@ class MainActivity : AppCompatActivity() {
     fun toRecords(view: View) {
         val intent = Intent(this, Records::class.java)
         startActivity(intent)
+    }
+
+    fun toCredits(view: View) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            .setTitle("Credits")
+            .setMessage("Backgrounds (Unsplash):\n" +
+                        "\"Balance\" by Bekir Dönmez\n" +
+                        "\"Pebble Tower\" by Jeremy Thomas\n" +
+                        "\"Peaceful Garden\" by Sarah Ball\n" +
+                        "\"Pristine Water Lily\" by Jay Castor\n\n" +
+                        "Music:\n\"Game Theory\" by Masayoshi Soken")
+        builder.show()
     }
 }

@@ -28,6 +28,7 @@ class Records : AppCompatActivity() {
         tvSkipRecVal = findViewById<TextView>(R.id.tvSkipRecVal)
         tvClearRecVal = findViewById<TextView>(R.id.tvClearRecVal)
         strDiff = sPref!!.getStringPreferences("ZENDOKU_DIFF")
+        if(strDiff == "") strDiff = "Med"
         tvDiff!!.setText(strDiff)
     }
 

@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="zendoku_brown">#FF432910</color>
+    <color name="zendoku_cream">#FFEDC39A</color>
+    <color name="zendoku_orange">#FFAD4B02</color>
+    <color name="zendoku_gray">#FFE5E5E5</color>
+    <color name="transparent">#00000000</color>
+    <color name="shadow_dark">#FF454545</color>
+    <color name="shadow_light">#FF686868</color>
 </resources>

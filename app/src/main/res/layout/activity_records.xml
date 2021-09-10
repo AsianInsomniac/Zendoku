@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".views.Records">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg4"/>
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -16,8 +22,13 @@
         app:layout_constraintBottom_toTopOf="@id/llDiff"
         android:fontFamily="@font/advent_pro_semibold"
         android:text="@string/app_name"
+        android:textColor="@color/zendoku_cream"
         android:textAllCaps="true"
         android:textSize="60sp"
+        android:shadowColor="@color/shadow_dark"
+        android:shadowDx="8"
+        android:shadowDy="8"
+        android:shadowRadius="8"
         android:layout_marginTop="100dp"/>
 
     <LinearLayout
@@ -29,37 +40,62 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tvSkipRec"
         android:layout_marginBottom="50dp"
+        android:layout_marginHorizontal="20dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:weightSum="15" >
 
         <Button
             android:id="@+id/btnDiffL"
+            android:theme="@style/Button.Gray"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
+            android:text="@string/settings_dec"
+            android:textSize="@dimen/btn_text_size_13"
+            android:textColor="@color/zendoku_brown"
             android:onClick="diffDown"
+            app:rippleColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/tvDiff"
             app:layout_constraintRight_toLeftOf="@id/tvDiffCon" />
 
         <TextView
             android:id="@+id/tvDiff"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             app:layout_constraintLeft_toRightOf="@id/btnDiffL"
             app:layout_constraintRight_toLeftOf="@id/btnDiffR"
             android:fontFamily="@font/advent_pro_semibold"
+            android:text="@string/dummy"
+            android:textColor="@color/zendoku_cream"
             android:textAllCaps="true"
-            android:textSize="25sp"
-            android:layout_weight="3"/>
+            android:textSize="30dp"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
+            android:layout_weight="6"/>
 
         <Button
             android:id="@+id/btnDiffR"
+            android:theme="@style/Button.Gray"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
+            android:text="@string/settings_inc"
+            android:textSize="@dimen/btn_text_size_13"
+            android:textColor="@color/zendoku_brown"
             android:onClick="diffUp"
+            app:rippleColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/tvDiffCon"
             app:layout_constraintRight_toRightOf="@id/parent" />
     </LinearLayout>
@@ -76,6 +112,12 @@
         android:text="Total skips used"
         android:textAllCaps="true"
         android:textSize="30sp"
+        android:shadowColor="@color/shadow_dark"
+        android:shadowDx="8"
+        android:shadowDy="8"
+        android:shadowRadius="8"
+        android:textAlignment="center"
+        android:textColor="@color/zendoku_cream"
         android:layout_marginTop="50dp"/>
 
     <TextView
@@ -90,6 +132,12 @@
         android:text="0"
         android:textAllCaps="true"
         android:textSize="25sp"
+        android:shadowColor="@color/shadow_dark"
+        android:shadowDx="8"
+        android:shadowDy="8"
+        android:shadowRadius="8"
+        android:textAlignment="center"
+        android:textColor="@color/zendoku_cream"
         android:layout_marginTop="10dp"/>
 
     <TextView
@@ -101,6 +149,12 @@
         android:text="Total boards cleared"
         android:textAllCaps="true"
         android:textSize="30sp"
+        android:shadowColor="@color/shadow_dark"
+        android:shadowDx="8"
+        android:shadowDy="8"
+        android:shadowRadius="8"
+        android:textAlignment="center"
+        android:textColor="@color/zendoku_cream"
         app:layout_constraintBottom_toTopOf="@id/tvClearRecVal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -118,15 +172,30 @@
         android:text="0"
         android:textAllCaps="true"
         android:textSize="25sp"
+        android:shadowColor="@color/shadow_dark"
+        android:shadowDx="8"
+        android:shadowDy="8"
+        android:shadowRadius="8"
+        android:textAlignment="center"
+        android:textColor="@color/zendoku_cream"
         android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/btn_width"
         android:layout_height="wrap_content"
         android:layout_marginVertical="100dp"
+        android:fontFamily="@font/rosario_regular"
         android:onClick="toHome"
-        android:text="Back"
+        android:shadowColor="@color/shadow_dark"
+        android:shadowDx="8"
+        android:shadowDy="8"
+        android:shadowRadius="8"
+        android:text="@string/app_back"
+        android:textSize="@dimen/btn_text_size_20"
+        android:theme="@style/Button.Gray"
+        app:rippleColor="@color/black"
+        app:cornerRadius="@dimen/btn_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

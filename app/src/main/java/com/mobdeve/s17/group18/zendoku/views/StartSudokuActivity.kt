@@ -12,7 +12,6 @@ import com.mobdeve.s17.group18.zendoku.game.Cell
 import com.mobdeve.s17.group18.zendoku.game.SudokuGame
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 import com.mobdeve.s17.group18.zendoku.viewmodel.StartSudokuViewModel
-import kotlinx.android.synthetic.main.activity_startsudoku.*
 
 
 class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener{
@@ -27,7 +26,7 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         setContentView(view)
 
         sPref = StoragePreferences(applicationContext)
-        sudokuBoardView.registerListener(this)
+        binding.sudokuBoardView.registerListener(this)
 
         val viewModelFactory = SudokuViewModelFactory(applicationContext)
         ViewModelProvider(this, viewModelFactory).get(StartSudokuViewModel::class.java)
@@ -37,7 +36,7 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
 
         updateSkipText()
 
-        val buttons = listOf(oneBtn, twoBtn, threeBtn, fourBtn, fiveBtn, sixBtn, sevenBtn, eightBtn, nineBtn)
+        val buttons = listOf(binding.oneBtn, binding.twoBtn, binding.threeBtn, binding.fourBtn, binding.fiveBtn, binding.sixBtn, binding.sevenBtn, binding.eightBtn, binding.nineBtn)
 
         buttons.forEachIndexed{index, button ->
             button.setOnClickListener{viewModel.sudokuGame.handleInput(index + 1)}
@@ -45,10 +44,10 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
     }
 
     private fun updateCells(cells: List<Cell>?) = cells?.let {
-        sudokuBoardView.updateCells(cells)
+        binding.sudokuBoardView.updateCells(cells)
     }
     private fun updateSelectedCellUI(cell: Pair<Int, Int>?) = cell?.let { // makes the sudokuBoardView update its UI from cell data processed in sudoku game
-        sudokuBoardView.updateSelectedCellUI(cell.first, cell.second)
+        binding.sudokuBoardView.updateSelectedCellUI(cell.first, cell.second)
     }
 
     private fun updateSkipText() {
@@ -56,7 +55,7 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         if (viewModel.sudokuGame.getSkip() != 1)
             strSkip += "S"
         strSkip += " LEFT"
-        tvSkips.text = strSkip
+        binding.tvSkips.text = strSkip
     }
 
    override fun onCellTouched(row: Int, col: Int) { //accesses the sudoku cell update method to update a highlighted cell
@@ -122,6 +121,16 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
 
     override fun onPause() {
         super.onPause()
+        saveBoard()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        saveBoard()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         saveBoard()
     }
 }

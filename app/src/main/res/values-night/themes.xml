@@ -15,5 +15,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="Button.Gray" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/zendoku_gray</item>
+        <item name="colorOnSecondary">@color/black</item>
     </style>
 </resources>
