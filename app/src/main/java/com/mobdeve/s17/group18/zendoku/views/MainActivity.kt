@@ -14,15 +14,34 @@ import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var sPref: StoragePreferences ?= null
-    var mediaPlayer: MediaPlayer ?= null
+    companion object {
+        var mediaPlayer: MediaPlayer ?= null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        sPref = StoragePreferences(applicationContext)
+        var nBGMVol = sPref!!.getIntPreferences("ZENDOKU_BGM")
+        if(nBGMVol == -1) nBGMVol = 10
+        /*var nSFXVol = sPref!!.getIntPreferences("ZENDOKU_SFX")
+        if(nSFXVol == -1) nSFXVol = 10*/
+
         mediaPlayer = MediaPlayer.create(this, R.raw.gametheory)
+        Settings.setVol(nBGMVol)
         mediaPlayer?.isLooping = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
         mediaPlayer?.start()
     }
 
@@ -32,7 +51,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toStart(view: View) {
-        sPref = StoragePreferences(applicationContext)
         val prevDiff = sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF") // Gets previously-saved difficulty setting from sharedPreferences
         val currDiff = sPref!!.getStringPreferences("ZENDOKU_DIFF") // Gets current difficulty setting from sharedPreferences
 

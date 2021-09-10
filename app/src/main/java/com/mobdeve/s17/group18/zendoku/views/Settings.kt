@@ -1,6 +1,8 @@
 package com.mobdeve.s17.group18.zendoku.views
 
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +21,12 @@ class Settings : AppCompatActivity() {
     private var tvSkipCon: TextView ?= null
     private var tvBGMCon: TextView ?= null
     private var tvSFXCon: TextView ?= null
+
+    companion object {
+        fun setVol(nVol: Int) {
+            MainActivity.mediaPlayer?.setVolume((nVol!! / 10.0).toFloat(), (nVol!! / 10.0).toFloat())
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,15 +81,16 @@ class Settings : AppCompatActivity() {
     fun bgmUp(view: View) {
         if(nBGMVol!! < 10) {
             nBGMVol = nBGMVol!! + 1
-
         }
+        setVol(nBGMVol!!)
         tvBGMCon!!.setText(nBGMVol.toString())
     }
 
     fun bgmDown(view: View) {
-        if(nBGMVol!! > 1) {
+        if(nBGMVol!! > 0) {
             nBGMVol = nBGMVol!! - 1
         }
+        setVol(nBGMVol!!)
         tvBGMCon!!.setText(nBGMVol.toString())
     }
 
@@ -93,7 +102,7 @@ class Settings : AppCompatActivity() {
     }
 
     fun sfxDown(view: View) {
-        if(nSFXVol!! > 1) {
+        if(nSFXVol!! > 0) {
             nSFXVol = nSFXVol!! - 1
         }
         tvSFXCon!!.setText(nSFXVol.toString())
@@ -113,7 +122,6 @@ class Settings : AppCompatActivity() {
         tvSkipCon!!.setText(nSkip.toString())
         tvBGMCon!!.setText(nBGMVol.toString())
         tvSFXCon!!.setText(nSFXVol.toString())
-
     }
 
     private fun savePrefs() {
@@ -125,11 +133,13 @@ class Settings : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        MainActivity.mediaPlayer?.start()
         setPrefs()
     }
 
     override fun onPause() {
         super.onPause()
+        MainActivity.mediaPlayer?.pause()
         savePrefs()
     }
 }

@@ -61,4 +61,14 @@ class Records : AppCompatActivity() {
         *** Updates records when difficulty is changed ***
     }
      */
+
+    override fun onResume() {
+        super.onResume()
+        MainActivity.mediaPlayer?.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MainActivity.mediaPlayer?.pause()
+    }
 }

@@ -119,13 +119,14 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         sPref.saveIntPreferences("ZENDOKU_GRID_CLEAR", viewModel.sudokuGame.getClear())
     }
 
-    override fun onPause() {
-        super.onPause()
-        saveBoard()
+    override fun onResume() {
+        super.onResume()
+        MainActivity.mediaPlayer?.start()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
+        MainActivity.mediaPlayer?.pause()
         saveBoard()
     }
 
