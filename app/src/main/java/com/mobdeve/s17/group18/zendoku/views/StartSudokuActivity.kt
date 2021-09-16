@@ -1,12 +1,14 @@
 package com.mobdeve.s17.group18.zendoku.views
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityStartsudokuBinding
 import com.mobdeve.s17.group18.zendoku.game.Cell
 import com.mobdeve.s17.group18.zendoku.game.SudokuGame
@@ -18,6 +20,9 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
     private lateinit var binding: ActivityStartsudokuBinding
     private lateinit var viewModel: StartSudokuViewModel
     private lateinit var sPref: StoragePreferences
+    private lateinit var posSFX: MediaPlayer
+    private lateinit var negSFX: MediaPlayer
+    private lateinit var skipSFX: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,11 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         buttons.forEachIndexed{index, button ->
             button.setOnClickListener{viewModel.sudokuGame.handleInput(index + 1)}
         }
+
+        posSFX = MediaPlayer.create(applicationContext, R.raw.positive)
+        negSFX = MediaPlayer.create(applicationContext, R.raw.negative)
+        skipSFX = MediaPlayer.create(applicationContext, R.raw.skip)
+        setSFXVol(sPref.getIntPreferences("ZENDOKU_SFX"))
     }
 
     private fun updateCells(cells: List<Cell>?) = cells?.let {
@@ -69,6 +79,7 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
     fun skipBoard(view: View) {
         if(viewModel.sudokuGame.getSkip() > 0) {
             viewModel.sudokuGame.skipBoard()
+            skipSFX.start()
             updateSkipText()
         }
         else {
@@ -84,6 +95,7 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
                 strMsg += "s"
             }
             strMsg += " left until next skip."
+            negSFX.start()
             Snackbar.make(findViewById(android.R.id.content),strMsg,Snackbar.LENGTH_SHORT).show()
         }
     }
@@ -95,11 +107,14 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
                 true -> strResult = "Board cleared!"
                 false -> strResult = "Board invalid. Maybe you missed something?"
             }
+            posSFX.start()
             Snackbar.make(findViewById(android.R.id.content), strResult, Snackbar.LENGTH_SHORT).show()
             updateSkipText()
         }
         else {
+            negSFX.start()
             Snackbar.make(findViewById(android.R.id.content), "Complete the board first before verifying.", Snackbar.LENGTH_SHORT).show()
+
         }
     }
 
@@ -115,18 +130,47 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
 
         }
         sPref.saveStringPreferences("ZENDOKU_GRID_DIFF", gridDiff)
-        sPref.saveIntPreferences("ZENDOKU_GRID_SKIP", viewModel.sudokuGame.getSkip())
-        sPref.saveIntPreferences("ZENDOKU_GRID_CLEAR", viewModel.sudokuGame.getClear())
+
+        var strSkipKey = "ZENDOKU_GRID_SKIP_"
+        var strSkipUsedKey = "ZENDOKU_GRID_SKIPUSED_"
+        var strClearKey = "ZENDOKU_GRID_CLEAR_"
+
+        when(gridDiff) {
+            "Easy" -> {
+                strSkipKey += "EASY"
+                strSkipUsedKey += "EASY"
+                strClearKey += "EASY"
+            }
+            "Med" -> {
+                strSkipKey += "MED"
+                strSkipUsedKey += "MED"
+                strClearKey += "MED"
+            }
+            "Hard" -> {
+                strSkipKey += "HARD"
+                strSkipUsedKey += "HARD"
+                strClearKey += "HARD"
+            }
+            "Evil" -> {
+                strSkipKey += "EVIL"
+                strSkipUsedKey += "EVIL"
+                strClearKey += "EVIL"
+            }
+        }
+
+        sPref.saveIntPreferences(strSkipKey, viewModel.sudokuGame.getSkip())
+        sPref.saveIntPreferences(strSkipUsedKey, viewModel.sudokuGame.getSkipUsed())
+        sPref.saveIntPreferences(strClearKey, viewModel.sudokuGame.getClear())
     }
 
-    override fun onResume() {
-        super.onResume()
-        MainActivity.mediaPlayer?.start()
+    private fun setSFXVol(vol: Int){
+        posSFX.setVolume((vol.toFloat() / 10), (vol.toFloat() / 10))
+        negSFX.setVolume((vol.toFloat() / 10), (vol.toFloat() / 10))
+        skipSFX.setVolume((vol.toFloat() / 10), (vol.toFloat() / 10))
     }
 
     override fun onPause() {
         super.onPause()
-        MainActivity.mediaPlayer?.pause()
         saveBoard()
     }
 

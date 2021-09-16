@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 class StoragePreferences(context: Context) {
     private val appPreferences: SharedPreferences
     private val PREFS = "appPreferences"
+
     fun saveIntPreferences(key: String?, value: Int) {
         val prefsEditor = appPreferences.edit()
         prefsEditor.putInt(key, value)

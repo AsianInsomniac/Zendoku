@@ -27,4 +27,12 @@
         <item name="colorPrimary">@color/zendoku_orange</item>
         <item name="rippleColor">@color/white</item>
     </style>
+
+    <style name="TransitionTheme" parent="android:Theme.Material">
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+
+    </style>
 </resources>

@@ -1,21 +1,28 @@
 package com.mobdeve.s17.group18.zendoku.views
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.Intent
-import android.media.MediaPlayer
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
-import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityMainBinding
+import com.mobdeve.s17.group18.zendoku.util.MediaPlayerService
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var sPref: StoragePreferences ?= null
-    companion object {
-        var mediaPlayer: MediaPlayer ?= null
+    private var isBound = false
+    private var mediaPlayer: MediaPlayerService ?= null
+
+    private var mConnection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            mediaPlayer = (service as MediaPlayerService.LocalBinder).getMPInstance()
+        }
+        override fun onServiceDisconnected(name: ComponentName?) {
+            mediaPlayer = null
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,24 +37,14 @@ class MainActivity : AppCompatActivity() {
         /*var nSFXVol = sPref!!.getIntPreferences("ZENDOKU_SFX")
         if(nSFXVol == -1) nSFXVol = 10*/
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.gametheory)
-        Settings.setVol(nBGMVol)
-        mediaPlayer?.isLooping = true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mediaPlayer?.pause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mediaPlayer?.start()
+        var intent = Intent(applicationContext, MediaPlayerService::class.java)
+        startService(intent)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
+        var intent = Intent(applicationContext, MediaPlayerService::class.java)
+        stopService(intent)
     }
 
     fun toStart(view: View) {

@@ -5,6 +5,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
+import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.game.Cell
 
 class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -46,12 +48,14 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLACK
         textSize = 48F
+        typeface = ResourcesCompat.getFont(context, R.font.ropasans_regular)
     }
 
     private val startingCellTextPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLUE
         textSize = 48F
+        typeface = ResourcesCompat.getFont(context, R.font.ropasans_regular)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) { //determines the view's size

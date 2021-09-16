@@ -1,14 +1,17 @@
 package com.mobdeve.s17.group18.zendoku.views
 
-import android.media.MediaPlayer
+import android.content.ComponentName
+import android.content.ServiceConnection
 import android.os.Bundle
-import android.util.Log
+import android.os.IBinder
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivitySettingsBinding
+import com.mobdeve.s17.group18.zendoku.util.MediaPlayerService
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
+import android.content.Intent
 
 class Settings : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
@@ -21,10 +24,15 @@ class Settings : AppCompatActivity() {
     private var tvSkipCon: TextView ?= null
     private var tvBGMCon: TextView ?= null
     private var tvSFXCon: TextView ?= null
+    private var isBound = false
+    private var mediaPlayer: MediaPlayerService ?= null
 
-    companion object {
-        fun setVol(nVol: Int) {
-            MainActivity.mediaPlayer?.setVolume((nVol!! / 10.0).toFloat(), (nVol!! / 10.0).toFloat())
+    private var mConnection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            mediaPlayer = (service as MediaPlayerService.LocalBinder).getMPInstance()
+        }
+        override fun onServiceDisconnected(name: ComponentName?) {
+            mediaPlayer = null
         }
     }
 
@@ -35,10 +43,12 @@ class Settings : AppCompatActivity() {
         setContentView(view)
 
         sPref = StoragePreferences(applicationContext)
-        tvDiffCon = findViewById<TextView>(R.id.tvDiffCon)
-        tvSkipCon = findViewById<TextView>(R.id.tvSkipCon)
-        tvBGMCon = findViewById<TextView>(R.id.tvBGMCon)
-        tvSFXCon = findViewById<TextView>(R.id.tvSFXCon)
+        tvDiffCon = findViewById(R.id.tvDiffCon)
+        tvSkipCon = findViewById(R.id.tvSkipCon)
+        tvBGMCon = findViewById(R.id.tvBGMCon)
+        tvSFXCon = findViewById(R.id.tvSFXCon)
+
+        doBindService()
     }
 
     fun toHome(view: View) {
@@ -82,7 +92,7 @@ class Settings : AppCompatActivity() {
         if(nBGMVol!! < 10) {
             nBGMVol = nBGMVol!! + 1
         }
-        setVol(nBGMVol!!)
+        mediaPlayer!!.setVol(nBGMVol!!)
         tvBGMCon!!.setText(nBGMVol.toString())
     }
 
@@ -90,7 +100,7 @@ class Settings : AppCompatActivity() {
         if(nBGMVol!! > 0) {
             nBGMVol = nBGMVol!! - 1
         }
-        setVol(nBGMVol!!)
+        mediaPlayer!!.setVol(nBGMVol!!)
         tvBGMCon!!.setText(nBGMVol.toString())
     }
 
@@ -106,6 +116,18 @@ class Settings : AppCompatActivity() {
             nSFXVol = nSFXVol!! - 1
         }
         tvSFXCon!!.setText(nSFXVol.toString())
+    }
+
+    fun doBindService() {
+        if(bindService (Intent(this@Settings, MediaPlayerService::class.java), mConnection, BIND_AUTO_CREATE))
+            isBound = true
+    }
+
+    fun doUnbindService() {
+        if(isBound) {
+            unbindService(mConnection)
+            isBound = false
+        }
     }
 
     private fun setPrefs() {
@@ -133,13 +155,18 @@ class Settings : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        MainActivity.mediaPlayer?.start()
         setPrefs()
+        mediaPlayer?.play()
     }
 
     override fun onPause() {
         super.onPause()
-        MainActivity.mediaPlayer?.pause()
         savePrefs()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        savePrefs()
+        doUnbindService()
     }
 }

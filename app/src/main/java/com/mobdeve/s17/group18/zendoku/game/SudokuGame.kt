@@ -16,8 +16,9 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
     var context: Context ?= null
     private var strDiff: String ?= null
     private var sPref: StoragePreferences?= null
-    private var nSkip: Int ?= null
-    private var nClear: Int ?= null
+    private var nSkip = 0
+    private var nSkipUsed = 0
+    private var nClear = 0
     private var strOrig: String ?= null
     private var nOrig: Array<Int> = Array(81) {0}
     private lateinit var sudokuArray: Array<Int>
@@ -50,6 +51,15 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
             setPrevBoard(prevBoard)
         else
             genBoard(sPref!!.getStringPreferences("ZENDOKU_DIFF").toString())
+
+        var strSkipUsedKey = "ZENDOKU_SKIP_USED_"
+        when(strDiff) {
+            "easy" -> strSkipUsedKey += "EASY"
+            "medium" -> strSkipUsedKey += "MED"
+            "hard" -> strSkipUsedKey += "HARD"
+            "evil" -> strSkipUsedKey += "EVIL"
+        }
+        sPref!!.getIntPreferences(strSkipUsedKey)
 
         updateBoard()
     }
@@ -129,8 +139,9 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         // Initialize number of skips
         nSkip = sPref!!.getIntPreferences("ZENDOKU_SKIP")
 
-        // Initialize number of board clears
-        nClear = 0
+        // Set number of board clears and skips used
+        nClear = getClearPref()
+        nSkipUsed = getSkipUsedPref()
 
         // Generate new board and update view
         genNewBoard()
@@ -141,6 +152,7 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
         genNewBoard()
         updateBoard()
         nSkip = nSkip?.minus(1)
+        nSkipUsed = nSkipUsed?.inc()
     }
 
     fun verifyBoard(): String {
@@ -221,8 +233,9 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
     private fun setPrevBoard(prevBoard: String) {
         setDiff(sPref!!.getStringPreferences("ZENDOKU_GRID_DIFF").toString())
 
-        nSkip = sPref!!.getIntPreferences("ZENDOKU_GRID_SKIP")
-        nClear = sPref!!.getIntPreferences("ZENDOKU_GRID_CLEAR")
+        nSkip = getSkipPref()
+        nClear = getClearPref()
+        nSkipUsed = getSkipUsedPref()
         strOrig = sPref!!.getStringPreferences("ZENDOKU_ORIGINAL_GRID")!!
 
         nOrig = Array(81) {0}
@@ -255,11 +268,62 @@ class SudokuGame(context: Context) { //acts as the backend of the sudoku board v
     }
 
     fun getSkip(): Int {
-        return nSkip!!.toInt()
+        return nSkip
+    }
+
+    fun getSkipUsed(): Int {
+        return nSkipUsed
     }
 
     fun getClear(): Int {
-        return nClear!!.toInt()
+        return nClear
+    }
+
+    fun getSkipPref(): Int {
+        var nSkip = 0
+        var str = "ZENDOKU_GRID_SKIP_"
+        when(strDiff) {
+            "easy" -> str += "EASY"
+            "medium" -> str += "MED"
+            "hard" -> str += "HARD"
+            "evil" -> str += "EVIL"
+        }
+        nSkip = sPref!!.getIntPreferences(str)
+        if(nSkip == -1) nSkip = 0
+
+        return nSkip
+    }
+
+    fun getSkipUsedPref(): Int {
+        var nSkipUsed = 0
+        var str = "ZENDOKU_GRID_SKIPUSED_"
+        when(strDiff) {
+            "easy" -> str += "EASY"
+            "medium" -> str += "MED"
+            "hard" -> str += "HARD"
+            "evil" -> str += "EVIL"
+        }
+
+        nSkipUsed = sPref!!.getIntPreferences(str)
+        if(nSkipUsed == -1) nSkipUsed = 0
+
+        return nSkipUsed
+    }
+
+    fun getClearPref(): Int {
+        var nClear = 0
+        var str = "ZENDOKU_GRID_CLEAR_"
+        when(strDiff) {
+            "easy" -> str += "EASY"
+            "medium" -> str += "MED"
+            "hard" -> str += "HARD"
+            "evil" -> str += "EVIL"
+        }
+
+        nClear = sPref!!.getIntPreferences(str)
+        if(nClear == -1) nClear = 0
+
+        return nClear
     }
 }
 

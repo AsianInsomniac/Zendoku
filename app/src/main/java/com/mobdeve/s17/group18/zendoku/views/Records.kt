@@ -24,12 +24,13 @@ class Records : AppCompatActivity() {
 
         sPref = StoragePreferences(applicationContext)
 
-        tvDiff = findViewById<TextView>(R.id.tvDiff)
-        tvSkipRecVal = findViewById<TextView>(R.id.tvSkipRecVal)
-        tvClearRecVal = findViewById<TextView>(R.id.tvClearRecVal)
+        tvDiff = findViewById(R.id.tvDiff)
+        tvSkipRecVal = findViewById(R.id.tvSkipRecVal)
+        tvClearRecVal = findViewById(R.id.tvClearRecVal)
         strDiff = sPref!!.getStringPreferences("ZENDOKU_DIFF")
         if(strDiff == "") strDiff = "Med"
-        tvDiff!!.setText(strDiff)
+        tvDiff!!.text = strDiff
+        updateRec()
     }
 
     fun toHome(view: View) {
@@ -42,7 +43,8 @@ class Records : AppCompatActivity() {
             "Med" -> strDiff = "Hard"
             "Hard" -> strDiff = "Evil"
         }
-        tvDiff!!.setText(strDiff)
+        tvDiff!!.text = strDiff
+        updateRec()
     }
 
     fun diffDown(view: View) {
@@ -51,24 +53,42 @@ class Records : AppCompatActivity() {
             "Hard" -> strDiff = "Med"
             "Evil" -> strDiff = "Hard"
         }
-        tvDiff!!.setText(strDiff)
+        tvDiff!!.text = strDiff
+        updateRec()
     }
 
-    /*
-    *** To be implemented when database is implemented ***
 
     private fun updateRec() {
-        *** Updates records when difficulty is changed ***
-    }
-     */
+        var nSkipUsed = 0
+        var nClear = 0
+        var strSkipUsedKey = "ZENDOKU_GRID_SKIPUSED_"
+        var strClearKey = "ZENDOKU_GRID_CLEAR_"
 
-    override fun onResume() {
-        super.onResume()
-        MainActivity.mediaPlayer?.start()
-    }
+        when(strDiff) {
+            "Easy" -> {
+                strSkipUsedKey += "EASY"
+                strClearKey += "EASY"
+            }
+            "Med" -> {
+                strSkipUsedKey += "MED"
+                strClearKey += "MED"
+            }
+            "Hard" -> {
+                strSkipUsedKey += "HARD"
+                strClearKey += "HARD"
+            }
+            "Evil" -> {
+                strSkipUsedKey += "EVIL"
+                strClearKey += "EVIL"
+            }
+        }
 
-    override fun onPause() {
-        super.onPause()
-        MainActivity.mediaPlayer?.pause()
+        nSkipUsed = sPref?.getIntPreferences(strSkipUsedKey)!!.toInt()
+        if(nSkipUsed == -1) nSkipUsed = 0
+        nClear = sPref?.getIntPreferences(strClearKey)!!.toInt()
+        if(nClear == -1) nClear = 0
+
+        tvSkipRecVal!!.text = nSkipUsed.toString()
+        tvClearRecVal!!.text = nClear.toString()
     }
 }

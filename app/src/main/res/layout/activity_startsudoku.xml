@@ -2,133 +2,142 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:transitionGroup="false"
+    android:transitionName="@string/settings_dec">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg3"/>
+        android:src="@drawable/bg3" />
 
     <Button
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/Button.Orange"
-        app:rippleColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
         android:fontFamily="@font/rosario_regular"
+        android:onClick="toHome"
         android:shadowColor="@color/shadow_dark"
         android:shadowDx="8"
         android:shadowDy="8"
         android:shadowRadius="8"
         android:text="@string/app_back"
         android:textSize="@dimen/btn_text_size_15"
+        android:theme="@style/Button.Orange"
         app:cornerRadius="@dimen/btn_radius"
-        android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:onClick="toHome"
-        />
+        app:rippleColor="@color/white" />
 
     <TextView
         android:id="@+id/tvTitle_sudokuBoardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btn_back"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
         android:fontFamily="@font/advent_pro_semibold"
-        android:text="@string/app_name"
-        android:textAllCaps="true"
-        android:textSize="60sp"
         android:shadowColor="@color/shadow_light"
         android:shadowDx="8"
         android:shadowDy="8"
         android:shadowRadius="8"
+        android:text="@string/app_name"
         android:textAlignment="center"
+        android:textAllCaps="true"
         android:textColor="@color/zendoku_brown"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_back"
-        android:layout_margin="20dp"
-        />
+        android:textSize="60sp" />
 
     <com.mobdeve.s17.group18.zendoku.views.SudokuBoardView
         android:id="@+id/sudokuBoardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tvTitle_sudokuBoardView"
-        android:layout_margin="20dp"
-        />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp" />
 
     <LinearLayout
         android:id="@+id/ll_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sudokuBoardView"
-        android:orientation="horizontal"
         android:gravity="center"
-        android:weightSum="9"
-        >
+        android:orientation="horizontal"
+        android:weightSum="9">
 
         <Button
             android:id="@+id/oneBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="1"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="1" />
+
         <Button
             android:id="@+id/twoBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="2"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="2" />
+
         <Button
             android:id="@+id/threeBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="3"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="3" />
+
         <Button
             android:id="@+id/fourBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="4"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="4" />
+
         <Button
             android:id="@+id/fiveBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="5"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="5" />
+
         <Button
             android:id="@+id/sixBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="6"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="6" />
+
         <Button
             android:id="@+id/sevenBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="7"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="7" />
+
         <Button
             android:id="@+id/eightBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="8"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="8" />
+
         <Button
             android:id="@+id/nineBtn"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:text="9"
             android:layout_margin="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="9" />
     </LinearLayout>
 
     <LinearLayout
@@ -136,69 +145,65 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_input"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvSkips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="20dp"
             android:fontFamily="@font/advent_pro_semibold"
-            android:text="@string/dummy"
-            android:textAllCaps="true"
-            android:textColor="@color/zendoku_cream"
             android:shadowColor="@color/shadow_dark"
             android:shadowDx="8"
             android:shadowDy="8"
             android:shadowRadius="8"
-            android:layout_margin="20dp"
-            android:textSize="32sp"
-            />
+            android:text="@string/dummy"
+            android:textAllCaps="true"
+            android:textColor="@color/zendoku_cream"
+            android:textSize="32sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="6"
-            android:gravity="center">
+            android:weightSum="6">
 
             <Button
                 android:layout_width="15dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_margin="5dp"
-                android:theme="@style/Button.Orange"
-                app:rippleColor="@color/white"
+                android:layout_weight="2"
                 android:fontFamily="@font/rosario_regular"
+                android:onClick="skipBoard"
                 android:shadowColor="@color/shadow_dark"
                 android:shadowDx="8"
                 android:shadowDy="8"
                 android:shadowRadius="8"
                 android:text="@string/board_skip"
                 android:textSize="@dimen/btn_text_size_15"
+                android:theme="@style/Button.Orange"
                 app:cornerRadius="@dimen/btn_radius"
-                android:onClick="skipBoard"
-                />
+                app:rippleColor="@color/white" />
 
             <Button
                 android:layout_width="15dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_margin="5dp"
-                android:theme="@style/Button.Orange"
-                app:rippleColor="@color/white"
+                android:layout_weight="2"
                 android:fontFamily="@font/rosario_regular"
+                android:onClick="verifyBoard"
                 android:shadowColor="@color/shadow_dark"
                 android:shadowDx="8"
                 android:shadowDy="8"
                 android:shadowRadius="8"
                 android:text="@string/board_verify"
                 android:textSize="@dimen/btn_text_size_15"
+                android:theme="@style/Button.Orange"
                 app:cornerRadius="@dimen/btn_radius"
-                android:onClick="verifyBoard"
-                />
+                app:rippleColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>
