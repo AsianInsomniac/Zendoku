@@ -41,12 +41,12 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
 
     private val selectedCellPaint = Paint().apply {  //sets the color and style of a selected cell
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#c4aa78")
+        color = resources.getColor(R.color.fill_chosen_tl, null)
     }
 
     private val conflictingCellPaint = Paint().apply { //sets the color and style of a conflicting cell
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#b4b8b5")
+        color = resources.getColor(R.color.fill_adj_tl, null)
     }
 
     private val textPaint = Paint().apply {

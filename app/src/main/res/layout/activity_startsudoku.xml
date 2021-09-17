@@ -17,7 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/rosario_regular"
         android:onClick="toHome"
         android:shadowColor="@color/shadow_dark"
@@ -69,74 +72,146 @@
 
         <Button
             android:id="@+id/oneBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="1" />
 
         <Button
             android:id="@+id/twoBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="2" />
 
         <Button
             android:id="@+id/threeBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="3" />
 
         <Button
             android:id="@+id/fourBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="4" />
 
         <Button
             android:id="@+id/fiveBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="5" />
 
         <Button
             android:id="@+id/sixBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="6" />
 
         <Button
             android:id="@+id/sevenBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="7" />
 
         <Button
             android:id="@+id/eightBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="8" />
 
         <Button
             android:id="@+id/nineBtn"
+            android:theme="@style/Button.Gray"
+            app:cornerRadius="20dp"
+            android:fontFamily="@font/ropasans_regular"
+            android:textColor="@color/black"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
+            android:shadowColor="@color/shadow_dark"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="8"
             android:text="9" />
     </LinearLayout>
 

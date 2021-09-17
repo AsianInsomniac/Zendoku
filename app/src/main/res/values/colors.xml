@@ -14,5 +14,7 @@
     <color name="transparent">#00000000</color>
     <color name="shadow_dark">#FF454545</color>
     <color name="shadow_light">#FF686868</color>
-    <color name="fill_white_tl">#B3FFFFFF</color>
+    <color name="fill_white_tl">#99FFFFFF</color>
+    <color name="fill_chosen_tl">#99C4AA78</color>
+    <color name="fill_adj_tl">#99B4B8B5</color>
 </resources>
