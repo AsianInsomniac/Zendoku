@@ -12,6 +12,17 @@
     <string name="settings_sfx">SFX</string>
     <string name="settings_dec">-</string>
     <string name="settings_inc">+</string>
+    <string name="credits">
+        \nBackgrounds (Unsplash):\n<br/>
+        \"Balance\" by Bekir Dönmez\n<br/>
+        \"Pebble Tower\" by Jeremy Thomas\n<br/>
+        \"Peaceful Garden\" by Sarah Ball\n<br/>
+        \"Pristine Water Lily\" by Jay Castor\n\n<br/><br/>
+        Music:\n<br/>
+        \"Game Theory\" by Masayoshi Soken\n\n<br/><br/>
+        by Gregorio &amp; Megallon<br/>
+        \n(MOBDEVE S17 - 2021)
+    </string>
     <string name="dummy">Test</string>
 
     <dimen name="btn_width">140dp</dimen>

@@ -16,6 +16,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
     </style>
 
     <style name="Button.Gray" parent="ThemeOverlay.AppCompat">
@@ -28,11 +29,10 @@
         <item name="rippleColor">@color/white</item>
     </style>
 
-    <style name="TransitionTheme" parent="android:Theme.Material">
-        <!-- enable window content transitions -->
-        <item name="android:windowActivityTransitions">true</item>
-
-        <!-- specify enter and exit transitions -->
-
+    <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 </resources>

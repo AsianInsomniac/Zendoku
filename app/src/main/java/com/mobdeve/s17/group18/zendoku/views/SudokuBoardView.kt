@@ -34,6 +34,11 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         strokeWidth = 1F
     }
 
+    private val cellPaint = Paint().apply { //sets the color and style of a conflicting cell
+        style = Paint.Style.FILL_AND_STROKE
+        color = resources.getColor(R.color.fill_white_tl, null)
+    }
+
     private val selectedCellPaint = Paint().apply {  //sets the color and style of a selected cell
         style = Paint.Style.FILL_AND_STROKE
         color = Color.parseColor("#c4aa78")
@@ -75,6 +80,8 @@ class SudokuBoardView (context: Context, attributeSet: AttributeSet) : View(cont
         cells?.forEach {
             val row = it.row
             val col = it.col
+
+            fillCell(canvas, row, col, cellPaint)
 
             if (row == selectedRow && col == selectedCol) { //fills the selected cell with the selectedCellPaint when matched with the cell selected
                 fillCell(canvas, row, col, selectedCellPaint)

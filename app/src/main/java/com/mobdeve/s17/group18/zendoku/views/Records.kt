@@ -33,6 +33,11 @@ class Records : AppCompatActivity() {
         updateRec()
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
     fun toHome(view: View) {
         finish()
     }

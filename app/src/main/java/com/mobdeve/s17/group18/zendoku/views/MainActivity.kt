@@ -1,11 +1,15 @@
 package com.mobdeve.s17.group18.zendoku.views
 
+import android.app.ActionBar
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
+import android.view.Window
+import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityMainBinding
 import com.mobdeve.s17.group18.zendoku.util.MediaPlayerService
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
@@ -79,22 +83,18 @@ class MainActivity : AppCompatActivity() {
     fun toSettings(view: View) {
         val intent = Intent(this, Settings::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
     fun toRecords(view: View) {
         val intent = Intent(this, Records::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     fun toCredits(view: View) {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            .setTitle("Credits")
-            .setMessage("Backgrounds (Unsplash):\n" +
-                        "\"Balance\" by Bekir Dönmez\n" +
-                        "\"Pebble Tower\" by Jeremy Thomas\n" +
-                        "\"Peaceful Garden\" by Sarah Ball\n" +
-                        "\"Pristine Water Lily\" by Jay Castor\n\n" +
-                        "Music:\n\"Game Theory\" by Masayoshi Soken")
-        builder.show()
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.credits_popup)
+        dialog.show()
     }
 }
