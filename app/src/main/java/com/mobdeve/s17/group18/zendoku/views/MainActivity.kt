@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.View
 import android.view.Window
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityMainBinding
 import com.mobdeve.s17.group18.zendoku.util.MediaPlayerService
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private var sPref: StoragePreferences ?= null
     private var isBound = false
     private var mediaPlayer: MediaPlayerService ?= null
+    private lateinit var imageView : ImageView
 
     private var mConnection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -43,6 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         var intent = Intent(applicationContext, MediaPlayerService::class.java)
         startService(intent)
+
+        imageView = findViewById(R.id.bg1)
+        Glide.with(this)
+            .load(R.drawable.bg1)
+            .into(imageView)
     }
 
     override fun onDestroy() {

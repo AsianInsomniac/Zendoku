@@ -4,9 +4,11 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityStartsudokuBinding
@@ -18,6 +20,7 @@ import com.mobdeve.s17.group18.zendoku.viewmodel.StartSudokuViewModel
 
 class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener{
     private lateinit var binding: ActivityStartsudokuBinding
+    private lateinit var imageView : ImageView
     private lateinit var viewModel: StartSudokuViewModel
     private lateinit var sPref: StoragePreferences
     private lateinit var posSFX: MediaPlayer
@@ -51,6 +54,11 @@ class StartSudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener
         negSFX = MediaPlayer.create(applicationContext, R.raw.negative)
         skipSFX = MediaPlayer.create(applicationContext, R.raw.skip)
         setSFXVol(sPref.getIntPreferences("ZENDOKU_SFX"))
+
+        imageView = findViewById(R.id.bg3)
+        Glide.with(this)
+            .load(R.drawable.bg3)
+            .into(imageView)
     }
 
     private fun updateCells(cells: List<Cell>?) = cells?.let {

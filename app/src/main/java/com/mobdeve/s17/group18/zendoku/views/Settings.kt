@@ -12,9 +12,12 @@ import com.mobdeve.s17.group18.zendoku.databinding.ActivitySettingsBinding
 import com.mobdeve.s17.group18.zendoku.util.MediaPlayerService
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 import android.content.Intent
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 class Settings : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
+    private lateinit var imageView : ImageView
     private var strDiff: String ?= null
     private var nSkip: Int ?= null
     private var nBGMVol: Int ?= null
@@ -49,6 +52,11 @@ class Settings : AppCompatActivity() {
         tvSFXCon = findViewById(R.id.tvSFXCon)
 
         doBindService()
+
+        imageView = findViewById(R.id.bg2)
+        Glide.with(this)
+            .load(R.drawable.bg2)
+            .into(imageView)
     }
 
     override fun finish() {

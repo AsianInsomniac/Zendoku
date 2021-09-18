@@ -3,13 +3,16 @@ package com.mobdeve.s17.group18.zendoku.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.mobdeve.s17.group18.zendoku.R
 import com.mobdeve.s17.group18.zendoku.databinding.ActivityRecordsBinding
 import com.mobdeve.s17.group18.zendoku.util.StoragePreferences
 
 class Records : AppCompatActivity() {
     private lateinit var binding: ActivityRecordsBinding
+    private lateinit var imageView : ImageView
     private var strDiff: String ?= null
     private var tvDiff: TextView ?= null
     private var tvSkipRecVal: TextView ?= null
@@ -31,6 +34,11 @@ class Records : AppCompatActivity() {
         if(strDiff == "") strDiff = "Med"
         tvDiff!!.text = strDiff
         updateRec()
+
+        imageView = findViewById(R.id.bg4)
+        Glide.with(this)
+            .load(R.drawable.bg4)
+            .into(imageView)
     }
 
     override fun finish() {

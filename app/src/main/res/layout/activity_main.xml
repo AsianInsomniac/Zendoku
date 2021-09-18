@@ -7,10 +7,10 @@
     tools:context=".views.MainActivity">
 
     <ImageView
+        android:id="@+id/bg1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg1" />
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tvTitle"
